@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>blockly test</title>
+</head>
+<body>
+    <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+    <xml id="toolbox" style="display: none">
+        <category name="Control" colour="210">
+            <block type="controls_if"></block>
+            <block type="logic_compare"></block>
+            <block type="logic_operation"></block>
+            <block type="logic_boolean"></block>
+        </category>
+        <category name="Math" colour="230">
+            <block type="math_number"></block>
+        </category>
+        <category name="Request" colour="200">
+            <block type="req_body"></block>
+        </category>
+        <category name="Response" colour="200">
+            <block type="res_send"></block>
+            <block type="res_error"></block>
+        </category>
+        <category name="Item" colour="200">
+            <block type="item_findById"></block>
+            <block type="item_obj"></block>
+        </category>
+        <category name="Text" colour="230">
+            <block type="text"></block>
+            <block type="text_print"></block>
+            <!--<block type="variables_get"><field name="VAR">i</field></block>-->
+        </category>
+        <category name="Variables" colour="330" custom="VARIABLE">
+        </category>
+    </xml>
+
+    <script src="js/blockly_compressed.js"></script>
+    <script src="js/blocks_compressed.js"></script>
+    <script src="js/msg/js/ja.js"></script>
+    <script>
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: document.getElementById('toolbox'),
+            media: 'media/'
+        });
+        Blockly.Blocks['item_findById'] = {
+            init: function () {
+                this.appendValueInput('VALUE')
+                    .setCheck('String')
+                    .appendField('find by id:');
+                this.setOutput(true, 'Item');
+                this.setColour(160);
+                this.setTooltip('Returns Item of the provided id.');
+            }
+        };
+        Blockly.Blocks['item_obj'] = {
+            init: function() {
+                this.appendDummyInput()
+                    .appendField('item:')
+                    .appendField(new Blockly.FieldDropdown([
+                       ['id', 'id'],
+                       ['delete_flag', 'delete_flag'],
+                       ['name', 'name']
+                    ]),
+                     'FIELDNAME');
+                this.setOutput(true, 'String');
+                this.setColour(160);
+            }
+        };
+        Blockly.Blocks['req_body'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField('request body.')
+                    .appendField(new Blockly.FieldDropdown([
+                       ['id', 'id'],
+                       ['name', 'name']
+                    ]),
+                     'FIELDNAME');
+                this.setOutput(true, 'String');
+                this.setColour(160);
+            }
+        };
+        Blockly.Blocks['res_send'] = {
+            init: function () {
+                this.appendValueInput('VALUE')
+                    .appendField('send response:');
+                this.setColour(160);
+                this.setPreviousStatement(true, 'Action');
+            }
+        };
+        Blockly.Blocks['res_error'] = {
+            init: function () {
+                this.appendDummyInput()
+                    .appendField('create error obj');
+                this.appendValueInput('VALUE')
+                    .setCheck('Number')
+                    .appendField('error code:');
+                this.appendValueInput('VALUE')
+                    .setCheck('String')
+                    .appendField('error msg:');
+                this.setOutput(true, 'Number');
+                this.setColour(160);
+                this.setTooltip('Returns number of letters in the provided text.');
+                this.setHelpUrl('http://www.w3schools.com/jsref/jsref_length_string.asp');
+            }
+        };
+    </script>
+</body>
+</html>
